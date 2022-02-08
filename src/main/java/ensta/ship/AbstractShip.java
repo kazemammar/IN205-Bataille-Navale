@@ -14,7 +14,7 @@ public abstract class AbstractShip {
         this.label = '.';
         this.name = "";
         this.size = 0;
-        this.orientation = Orientation.NORTH;
+        this.orientation = Orientation.EAST;
     }
 
     public AbstractShip(char aLabel, String aName, int aSize, Orientation anOrientation) {

@@ -12,10 +12,10 @@ public class Board {
 	private static final int DEFAULT_SIZE = 10;
 
 
-	public String getName()
-	{
+	public String getName() {
 		return name;
 	}
+
 	public void setName(String aName)
 	{
 		this.name = aName;
