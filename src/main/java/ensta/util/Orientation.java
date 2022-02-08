@@ -16,7 +16,7 @@ public enum Orientation {
 	private Orientation(int increment) {
 		this.increment = increment;
 	}
-	
+
 	public int getIncrement() {
 		return increment;
 	}
