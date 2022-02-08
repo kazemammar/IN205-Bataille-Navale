@@ -1,9 +1,11 @@
 package ensta.model;
 
-//import ensta.model.ship.AbstractShip;
-//import ensta.util.Orientation;
+import ensta.model.ship.AbstractShip;
+import ensta.ship.AbstractShip;
+import ensta.util.Orientation;
 
-public class Board {
+public class Board implements IBoard{
+
 
 	private String name;
 	private char[][] navires;
@@ -142,4 +144,41 @@ public class Board {
 //
 //		return true;
 //	}
+
+	@Override
+	public int getSize()
+	{
+		return navires.length;
+	}
+
+	@Override
+	public boolean putShip(AbstractShip ship, Coords coords) {
+		return false;
+	}
+
+	@Override
+	public boolean hasShip(int x, int y)
+	{
+		
+	}
+
+	@Override
+	public void setHit(boolean hit, Coords coords) {
+
+	}
+
+	@Override
+	public Boolean getHit(Coords coords) {
+		return null;
+	}
+
+	@Override
+	public Hit sendHit(Coords res) {
+		return null;
+	}
+
+	@Override
+	public boolean canPutShip(AbstractShip ship, Coords coords) {
+		return false;
+	}
 }
