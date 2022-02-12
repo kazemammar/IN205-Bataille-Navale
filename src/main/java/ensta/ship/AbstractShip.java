@@ -10,6 +10,9 @@ public abstract class AbstractShip {
     protected int size;
     protected Orientation orientation;
 
+    protected int strikeCount;
+
+
     public AbstractShip() {
         this.label = '.';
         this.name = "";
@@ -47,5 +50,15 @@ public abstract class AbstractShip {
         this.orientation = anOrientation;
     }
 
+    public void addStrike()
+    {
+        this.strikeCount += 1;
+    }
+
+
+    public boolean isSunk()
+    {
+        return strikeCount == size;
+    }
 
 }

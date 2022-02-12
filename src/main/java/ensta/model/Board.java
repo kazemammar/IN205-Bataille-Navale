@@ -1,14 +1,14 @@
 package ensta.model;
 
 import ensta.ship.AbstractShip;
-import ensta.ship.AbstractShip;
+import ensta.ship.ShipState;
 import ensta.util.Orientation;
 
 public class Board implements IBoard{
 
 
 	private String name;
-	private char[][] navires;
+	private ShipState[][] navires;
 	private Boolean[][] frappes;
 
 	private static final int DEFAULT_SIZE = 10;
@@ -23,7 +23,7 @@ public class Board implements IBoard{
 		this.name = aName;
 	}
 
-	public char[][] getNavires()
+	public ShipState[][] getNavires()
 	{
 		return navires;
 	}
@@ -31,7 +31,7 @@ public class Board implements IBoard{
 
 	public void setNavires(int aSize)
 	{
-		this.navires = new char[aSize][aSize];
+		this.navires = new ShipState[aSize][aSize];
 	}
 
 	public Boolean[][] getFrappes()
@@ -47,12 +47,12 @@ public class Board implements IBoard{
 	public Board(String aName, int aSize)
 	{
 		this.name = aName;
-		this.navires = new char[aSize][aSize];
+		this.navires = new ShipState[aSize][aSize];
 		for( int i = 0 ; i < aSize ; i++)
 		{
 			for ( int j = 0 ; j < aSize ; j++)
 			{
-				this.navires[j][i] = ' ';
+				this.navires[j][i] = new ShipState();
 			}
 		}
 		this.frappes = new Boolean[aSize][aSize];
@@ -88,8 +88,8 @@ public class Board implements IBoard{
 			for (i=0;i<size;i++)
 			{
 				sb.append(" ");
-				char ship = this.navires[j][i];
-				if (ship == ' ') sb.append(".");
+				ShipState ship = this.navires[j][i];
+				if (ship == null) sb.append(".");
 				else sb.append(ship);
 			};
 			sb.append("         ");
