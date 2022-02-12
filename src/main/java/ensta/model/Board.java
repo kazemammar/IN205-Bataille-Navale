@@ -175,7 +175,25 @@ public class Board implements IBoard{
 
 	@Override
 	public Hit sendHit(int x, int y) {
-		return null;
+		Hit res = null;
+		if (this.navires[y][x] != null)
+		{
+			this.navires[y][x].addStrike();
+			if (this.navires[y][x].isStruck())
+			{
+				res = Hit.MISS;
+				if (this.navires[y][x].getShip() != null)
+				{
+					res = Hit.STRIKE;
+					if (this.navires[y][x].getShip().isSunk())
+					{
+						int length = this.navires[y][x].getShip().getLength();
+						res = Hit.fromInt(length);
+					}
+				}
+			}
+		}
+		return res;
 	}
 
 	@Override
