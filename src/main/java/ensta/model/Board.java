@@ -3,9 +3,10 @@ package ensta.model;
 import ensta.ship.AbstractShip;
 import ensta.ship.ShipState;
 import ensta.util.Orientation;
+import ensta.exception.HorsGrille;
+import ensta.exception.Superposition;
 
 public class Board implements IBoard{
-
 
 	private String name;
 	private ShipState[][] navires;
@@ -107,44 +108,6 @@ public class Board implements IBoard{
 		System.out.println(sb.toString());
 	}
 
-//	public boolean PutShip(AbstractShip ship, int x, int y) {
-//		Orientation o = ship.getOrientation();
-//		int dx = 0, dy = 0;
-//		if (o == Orientation.EAST) {
-//			if (x + ship.getLength() >= this.size) {
-//				return false;
-//			}
-//			dx = 1;
-//		} else if (o == Orientation.SOUTH) {
-//			if (coords.getY() + ship.getLength() >= this.size) {
-//				return false;
-//			}
-//			dy = 1;
-//		} else if (o == Orientation.NORTH) {
-//			if (coords.getY() + 1 - ship.getLength() < 0) {
-//				return false;
-//			}
-//			dy = -1;
-//		} else if (o == Orientation.WEST) {
-//			if (coords.getX() + 1 - ship.getLength() < 0) {
-//				return false;
-//			}
-//			dx = -1;
-//		}
-//
-//		Coords iCoords = new Coords(coords);
-//
-//		for (int i = 0; i < ship.getLength(); ++i) {
-//			if (this.hasShip(iCoords)) {
-//				return false;
-//			}
-//			iCoords.setX(iCoords.getX() + dx);
-//			iCoords.setY(iCoords.getY() + dy);
-//		}
-//
-//		return true;
-//	}
-
 	@Override
 	public int getSize()
 	{
@@ -152,14 +115,126 @@ public class Board implements IBoard{
 	}
 
 	@Override
-	public boolean putShip(AbstractShip ship, int x, int y) {
-		return false;
+	public void putShip(AbstractShip aShip, int x, int y) throws Exception
+	{
+		int size = getSize();
+		int ship_size = aShip.getLength();
+		int i=0;
+		boolean possible = true;
+		Orientation anOrientation = aShip.getOrientation() ;
+		switch(anOrientation)
+		{
+			case WEST:
+				if (x - ship_size + 1 < 0)
+				{ System.out.println("\nLe bateau sort de la grille\n"); possible = false; }
+				while(possible && i<ship_size)
+				{
+					if (navires[y][x-i] != null)
+					{
+						if ( navires[y][x-i].getShip() != null )
+						{ System.out.println("\nUn autre bateau fait obstacle\n"); possible = false; };
+						i ++;
+					}
+					else
+					{
+						possible = false;
+						System.out.println("\nErreur pointeur nul\n");
+					};
+				};
+				if(!possible) throw new Exception();
+				else
+				{
+					i = 0;
+					while(possible && i<ship_size)
+					{
+						navires[y][x-i] = new ShipState(aShip);
+						i++;
+					};
+				};
+				break;
+			case EAST:
+				if (x + ship_size - 1 >= size)
+				{ System.out.println("\nLe bateau sort de la grille\n"); possible = false; }
+				while(possible && i<ship_size)
+				{
+					if ( navires[y][x+i] != null )
+					{
+						if ( navires[y][x+i].getShip() != null )
+						{ System.out.println("\nUn autre bateau fait obstacle\n"); possible = false; };
+						i ++;
+					}
+					else
+					{
+						possible = false;
+						System.out.println("\nErreur pointeur nul\n");
+					};
+				};
+				if(!possible) throw new Exception();
+				else
+				{
+					i = 0;
+					while(possible && i<ship_size)
+					{ navires[y][x+i] = new ShipState(aShip); i++; };
+				};
+				break;
+			case SOUTH:
+				if (y + ship_size - 1 >= size)
+				{ System.out.println("\nLe bateau sort de la grille\n"); possible = false; }
+				while(possible && i<ship_size)
+				{
+					if ( navires[y+i][x] != null )
+					{
+						if ( navires[y+i][x].getShip() != null )
+						{ System.out.println("\nUn autre bateau fait obstacle\n"); possible = false; };
+						i ++;
+					}
+					else
+					{
+						possible = false;
+						System.out.println("\nErreur pointeur nul\n");
+					};
+				};
+				if(!possible) throw new Exception();
+				else
+				{
+					i = 0;
+					while(possible && i<ship_size)
+					{ navires[y+i][x] = new ShipState(aShip); i++; };
+				};
+				break;
+			case NORTH:
+				if (y - ship_size + 1 < 0)
+				{ System.out.println("\nLe bateau sort de la grille\nRecommencez !\n"); possible = false; }
+				while(possible && i<ship_size)
+				{
+					if ( navires[y-i][x] != null )
+					{
+						if ( navires[y-i][x].getShip() != null )
+						{ System.out.println("\nUn autre bateau fait obstacle\n"); possible = false; };
+						i ++;
+					}
+					else
+					{
+						possible = false;
+						System.out.println("\nErreur pointeur nul\n");
+					};
+				};
+				if(!possible) throw new Exception();
+				else
+				{
+					i = 0;
+					while(possible && i<ship_size)
+					{ navires[y-i][x] = new ShipState(aShip); i++; };
+				};
+				break;
+		}
 	}
 
 	@Override
 	public boolean hasShip(int x, int y)
 	{
-		return false;
+		if (navires[y][x].getShip() == null) return false;
+		else return !navires[y][x].getShip().isSunk();
 	}
 
 	@Override
@@ -194,10 +269,5 @@ public class Board implements IBoard{
 			}
 		}
 		return res;
-	}
-
-	@Override
-	public boolean canPutShip(AbstractShip ship, int x, int y) {
-		return false;
 	}
 }

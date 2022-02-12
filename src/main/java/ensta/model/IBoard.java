@@ -17,7 +17,7 @@ public interface IBoard {
      * @param y
      * @return true if the ship is put on the board
     */
-    public boolean putShip(AbstractShip ship, int x, int y);
+    void putShip(ensta.ship.AbstractShip aShip, int x, int y) throws Exception;
 
     /**
      * Get if a ship is placed at the given position
@@ -51,6 +51,4 @@ public interface IBoard {
      */
 
     public Hit sendHit(int x, int y);
-
-	public boolean canPutShip(AbstractShip ship, int x, int y);
 }

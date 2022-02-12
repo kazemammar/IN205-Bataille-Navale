@@ -8,83 +8,89 @@ import ensta.util.Orientation;
 import ensta.view.InputHelper;
 
 public class Player {
-	/*
-	 * ** Attributs
+	/* **
+	 * Attributs
 	 */
-	private Board board;
+	public Board board;
 	protected Board opponentBoard;
-	private int destroyedCount;
+	public int destroyedCount;
 	protected AbstractShip[] ships;
-	private boolean lose;
-    private String stringOrientation;
+	public boolean lose;
 
-    /*
-	 * ** Constructeur
+	/* **
+	 * Constructeur
 	 */
 	public Player(Board board, Board opponentBoard, List<AbstractShip> ships) {
-		this.setBoard(board);
+		this.board = board;
 		this.ships = ships.toArray(new AbstractShip[0]);
 		this.opponentBoard = opponentBoard;
 	}
 
-	/*
-	 * ** Méthodes
+	/* **
+	 * Méthodes
 	 */
 
 	/**
-	 * Read keyboard input to get ships coordinates. Place ships on given
-	 * coodrinates.
+	 * Read keyboard input to get ships coordinates. Place ships on given coordinates.
+	 * @throws Exception
 	 */
 	public void putShips() {
 		boolean done = false;
 		int i = 0;
+		board.print();
 
 		do {
-			AbstractShip ship = ships[i];
-			String msg = String.format("placer %d : %s(%d)", i + 1, ship.getName(), ship.getLength());
+			AbstractShip s = ships[i];
+			String msg = String.format("placer %d : %s(%d)", i + 1, s.getName(), s.getLength());
 			System.out.println(msg);
 			InputHelper.ShipInput res = InputHelper.readShipInput();
 			// TODO set ship orientation
-            String stringOrientation = new String();
-            if (res != null) stringOrientation = res.orientation;
-            switch(stringOrientation)
-            {
-                case "n":
-                    ship.setOrientation(Orientation.NORTH);
-                    break;
-                case "s":
-                    ship.setOrientation(Orientation.SOUTH);
-                    break;
-                case "e":
-                    ship.setOrientation(Orientation.EAST);
-                    break;
-                case "w":
-                    ship.setOrientation(Orientation.WEST);
-                    break;
-            }
+			String string_o = new String();
+			if (res != null) string_o = res.orientation;
+			switch(string_o)
+			{
+				case "n":
+					s.setOrientation(Orientation.NORTH);
+					break;
+				case "s":
+					s.setOrientation(Orientation.SOUTH);
+					break;
+				case "e":
+					s.setOrientation(Orientation.EAST);
+					break;
+				case "w":
+					s.setOrientation(Orientation.WEST);
+					break;
+			}
 			// TODO put ship at given position
-            try
-            { board.putShip(ship, res.x, res.y); }
-            catch (Exception e)
-            {
-                System.out.println("Réessayez avec des valeurs correctes !");
-            }
+			try
+			{ board.putShip(s, res.x, res.y); }
+			catch (Exception e)
+			{
+				System.out.println("Réessayez avec des valeurs correctes !");
+			}
+
 			// TODO when ship placement successful
-            boolean success = false;
-            success = board.hasShip(res.x, res.y);
-            if (success) board.print();
-            else i--;
+			boolean success = false;
+			success = board.hasShip(res.x, res.y);
+			if (success) board.print();
+			else i--;
 
 			++i;
 			done = i == 5;
 
-			board.print();
 		} while (!done);
 	}
 
+	/**
+	 * Sends a hit at the given position
+	 * @param coords where coords[0] = x : the absciss chosen, coords[1] = y : the ordinate chosen
+	 * @return status for the hit (eg : strike or miss)
+	 */
 	public Hit sendHit(int[] coords) {
 		boolean done;
 		Hit hit = null;
+
 		do {
 			System.out.println("où frapper?");
 			InputHelper.CoordInput hitInput = InputHelper.readCoordInput();
@@ -126,29 +132,5 @@ public class Player {
 
 	public void setShips(AbstractShip[] ships) {
 		this.ships = ships;
-	}
-
-	public Board getBoard() {
-		return board;
-	}
-
-	public void setBoard(Board board) {
-		this.board = board;
-	}
-
-	public int getDestroyedCount() {
-		return destroyedCount;
-	}
-
-	public void setDestroyedCount(int destroyedCount) {
-		this.destroyedCount = destroyedCount;
-	}
-
-	public boolean isLose() {
-		return lose;
-	}
-
-	public void setLose(boolean lose) {
-		this.lose = lose;
 	}
 }
