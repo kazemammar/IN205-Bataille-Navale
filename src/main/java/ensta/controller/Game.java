@@ -7,15 +7,15 @@
 //import java.util.Scanner;
 //
 //import ensta.model.Board;
-//import ensta.model.Coords;
+////import ensta.Coords;
 //import ensta.model.Hit;
-//import ensta.model.Player;
-//import ensta.model.ship.AbstractShip;
-//import ensta.model.ship.BattleShip;
-//import ensta.model.ship.Carrier;
-//import ensta.model.ship.Destroyer;
-//import ensta.model.ship.Submarine;
-//import ensta.util.ColorUtil;
+////import ensta.Player;
+//import ensta.ship.AbstractShip;
+//import ensta.ship.BattleShip;
+//import ensta.ship.Carrier;
+//import ensta.ship.Destroyer;
+//import ensta.ship.Submarine;
+////import ensta.ColorUtil;
 //
 //public class Game {
 //

@@ -13,33 +13,37 @@ public interface IBoard {
     /**
     * Put the given ship at the given position
     * @param ship The ship to place on the board
-    * @param coords
+    * @param x
+     * @param y
      * @return true if the ship is put on the board
     */
-//    public boolean putShip(AbstractShip ship, Coords coords);
+    public boolean putShip(AbstractShip ship, int x, int y);
 
     /**
      * Get if a ship is placed at the given position
-     * @param coords
+     * @param x
+     * @param y
      * @return true if a ship is located at the given position
      */
-//    public boolean hasShip(Coords coords);
+    public boolean hasShip(int x, int y);
 
     /**
      * Set the state of the hit at a given position
      * @param hit true if the hit must be set to successful
-     * @param coords
+     * @param x
+     * @param y
      */
-//    public void setHit(boolean hit, Coords coords);
+    public void setHit(boolean hit, int x, int y);
 
     /**
      * Get the state of a hit at the given position
-     * @param coords
+     * @param x
+     * @param y
      * @return true if the hit is successful
      */
-//    public Boolean getHit(Coords coords);
+    public Boolean getHit(int x, int y);
 
-//	public Hit sendHit(Coords res);
-//
-//	public boolean canPutShip(AbstractShip ship, Coords coords);
+	public Hit sendHit(int x, int y);
+
+	public boolean canPutShip(AbstractShip ship, int x, int y);
 }

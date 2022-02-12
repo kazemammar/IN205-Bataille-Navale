@@ -1,6 +1,6 @@
 package ensta.model;
 
-import ensta.model.ship.AbstractShip;
+import ensta.ship.AbstractShip;
 import ensta.ship.AbstractShip;
 import ensta.util.Orientation;
 
@@ -107,11 +107,11 @@ public class Board implements IBoard{
 		System.out.println(sb.toString());
 	}
 
-//	public boolean canPutShip(AbstractShip ship, Coords coords) {
+//	public boolean PutShip(AbstractShip ship, int x, int y) {
 //		Orientation o = ship.getOrientation();
 //		int dx = 0, dy = 0;
 //		if (o == Orientation.EAST) {
-//			if (coords.getX() + ship.getLength() >= this.size) {
+//			if (x + ship.getLength() >= this.size) {
 //				return false;
 //			}
 //			dx = 1;
@@ -152,33 +152,34 @@ public class Board implements IBoard{
 	}
 
 	@Override
-	public boolean putShip(AbstractShip ship, Coords coords) {
+	public boolean putShip(AbstractShip ship, int x, int y) {
 		return false;
 	}
 
 	@Override
 	public boolean hasShip(int x, int y)
 	{
-		
+		return false;
 	}
 
 	@Override
-	public void setHit(boolean hit, Coords coords) {
-
+	public void setHit(boolean hit, int x, int y) {
+		if (hit) frappes[y][x]= true;
+		else frappes[y][x] = false;
 	}
 
 	@Override
-	public Boolean getHit(Coords coords) {
+	public Boolean getHit(int x, int y) {
+		return frappes[y][x];
+	}
+
+	@Override
+	public Hit sendHit(int x, int y) {
 		return null;
 	}
 
 	@Override
-	public Hit sendHit(Coords res) {
-		return null;
-	}
-
-	@Override
-	public boolean canPutShip(AbstractShip ship, Coords coords) {
+	public boolean canPutShip(AbstractShip ship, int x, int y) {
 		return false;
 	}
 }
