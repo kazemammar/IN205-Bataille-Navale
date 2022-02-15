@@ -5,6 +5,7 @@ import ensta.model.Board;
 import ensta.model.Hit;
 import ensta.model.Player;
 import ensta.ship.AbstractShip;
+import ensta.util.Coordinates;
 
 public class PlayerAI extends Player {
     /* **
@@ -26,7 +27,7 @@ public class PlayerAI extends Player {
         ai.putShips(ships);
     };
 
-    public Hit sendHit(int[] coords)
+    public Hit sendHit(Coordinates coords)
     {
         return ai.sendHit(coords);
     };

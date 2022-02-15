@@ -6,6 +6,7 @@ import ensta.model.Hit;
 import ensta.model.IBoard;
 import ensta.ship.AbstractShip;
 import ensta.util.Orientation;
+import ensta.util.Coordinates;
 
 public class BattleShipsAI implements Serializable {
 
@@ -36,7 +37,7 @@ public class BattleShipsAI implements Serializable {
     /**
      * Coords of last known strike. Would be a good idea to target next hits around this point.
      */
-    private int lastStrike[];
+    private Coordinates lastStrike;
 
     /**
      * If last known strike lead me to think the underlying ship has vertical placement.
@@ -92,9 +93,9 @@ public class BattleShipsAI implements Serializable {
      * @param coords array must be of size 2. Will hold the coord of the send hit.
      * @return the status of the hit.
      */
-    public Hit sendHit(int[] coords) {
-        int res[] = null;
-        if (coords == null || coords.length < 2) {
+    public Hit sendHit(Coordinates coords) {
+        Coordinates res = null;
+        if (coords == null) {
             throw new IllegalArgumentException("must provide an initialized array of size 2");
         }
 
@@ -107,7 +108,7 @@ public class BattleShipsAI implements Serializable {
             }
 
             if (res == null) {
-                // no suitable coord found... forget last strike.
+                // no suitable coords found... forget last strike.
                 lastStrike = null;
                 lastVertical = null;
             }
@@ -119,7 +120,7 @@ public class BattleShipsAI implements Serializable {
                 res = pickHCoord();
             }
             if (res == null) {
-                // no suitable coord found... forget last strike.
+                // no suitable coords found... forget last strike.
                 lastStrike = null;
             }
         }
@@ -128,18 +129,19 @@ public class BattleShipsAI implements Serializable {
             res = pickRandomCoord();
         }
 
-        Hit hit = opponent.sendHit(res[0], res[1]);
-        board.setHit(hit != Hit.MISS, res[0], res[1]);
+        Hit hit = opponent.sendHit(res);
+        board.setHit(hit != Hit.MISS, res);
 
         if (hit != Hit.MISS) {
             if (lastStrike != null) {
-                lastVertical = guessOrientation(lastStrike, res);
+                lastVertical = guessOrientation(lastStrike.getX(), res.getX());
             }
             lastStrike = res;
         }
 
-        coords[0] = res[0];
-        coords[1] = res[1];
+        coords.setX(res.getX());
+        coords.setY(res.getY());
+
         return hit;
     }
 
@@ -186,38 +188,44 @@ public class BattleShipsAI implements Serializable {
         return true;
     }
 
-    private boolean guessOrientation(int[] c1, int[] c2) {
-        return c1[0] == c2[0];
+    private boolean guessOrientation(int c1, int c2) {
+        return c1 == c2;
     }
 
-    private boolean isUndiscovered(int x, int y) {
-        return x >= 0 && x < size && y >= 0 && y < size && board.getHit(x, y) == null;
+    private boolean isUndiscovered(Coordinates coords) {
+        int x = coords.getX();
+        int y= coords.getY();
+        return x >= 0 && x < size && y >= 0 && y < size && board.getHit(coords) == null;
     }
 
-    private int[] pickRandomCoord() {
+    private Coordinates pickRandomCoord() {
         Random rnd = new Random();
-        int x;
-        int y;
+        int x=0;
+        int y = 0;
 
+        Coordinates coords = new Coordinates(x, y);
         do {
             x = rnd.nextInt(size);
             y = rnd.nextInt(size);
-        } while (!isUndiscovered(x, y));
+            coords.setX(x);
+            coords.setY(y);
+        } while (!isUndiscovered(coords));
 
-        return new int[] {x, y};
+        return coords;
     }
 
     /**
      * pick a coord verically around last known strike
      * @return suitable coord, or null if none is suitable
      */
-    private int[] pickVCoord() {
-        int x = lastStrike[0];
-        int y = lastStrike[1];
+    private Coordinates pickVCoord() {
+        int x = lastStrike.getX();
+        int y = lastStrike.getY();
 
-        for (int iy : new int[]{y - 1, y + 1}) {
-            if (isUndiscovered(x, iy)) {
-                return new int[]{x, iy};
+        for (int iy : new int[] { y - 1, y + 1 }) {
+            Coordinates coords = new Coordinates(x, iy);
+            if (isUndiscovered(coords)) {
+                return coords;
             }
         }
         return null;
@@ -227,13 +235,14 @@ public class BattleShipsAI implements Serializable {
      * pick a coord horizontally around last known strike
      * @return suitable coord, or null if none is suitable
      */
-    private int[] pickHCoord() {
-        int x = lastStrike[0];
-        int y = lastStrike[1];
+    private Coordinates pickHCoord() {
+        int x = lastStrike.getX();
+        int y = lastStrike.getY();
 
-        for (int ix : new int[]{x - 1, x + 1}) {
-            if (isUndiscovered(ix, y)) {
-                return new int[]{ix, y};
+        for (int ix : new int[] { x - 1, x + 1 }) {
+            Coordinates coords = new Coordinates(ix, y);
+            if (isUndiscovered(coords)) {
+                return coords;
             }
         }
         return null;

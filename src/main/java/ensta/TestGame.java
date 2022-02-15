@@ -10,6 +10,7 @@ import ensta.ship.Carrier;
 import ensta.ship.BattleShip;
 import ensta.ship.Destroyer;
 import ensta.ship.Submarine;
+import ensta.util.Coordinates;
 
 public class TestGame
 {
@@ -32,7 +33,7 @@ public class TestGame
 
         int compteur = 0;
         Hit hit = null;
-        int coords[] = new int[2];
+        Coordinates coords = new Coordinates();
         char x ;
         int y ;
         do
@@ -43,8 +44,8 @@ public class TestGame
             { e.printStackTrace();}
             if (hit != null)
             {
-                x = ((char) ('0' +  coords[0] + 17));
-                y = coords[1] + 1;
+                x = ((char) ('0' +  coords.getX() + 17));
+                y = coords.getY() + 1;
                 System.out.println("Hit : "+x+y+" "+hit.toString());
                 if (hit != Hit.MISS && hit != Hit.STRIKE) compteur ++;
             };

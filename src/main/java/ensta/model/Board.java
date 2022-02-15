@@ -2,6 +2,7 @@ package ensta.model;
 
 import ensta.ship.AbstractShip;
 import ensta.ship.ShipState;
+import ensta.util.Coordinates;
 import ensta.util.Orientation;
 import ensta.exception.HorsGrille;
 import ensta.exception.Superposition;
@@ -238,18 +239,29 @@ public class Board implements IBoard{
 	}
 
 	@Override
-	public void setHit(boolean hit, int x, int y) {
+	public void setHit(boolean hit, Coordinates coords) {
+
+		int x = coords.getX();
+		int y = coords.getY();
+
 		if (hit) frappes[y][x]= true;
 		else frappes[y][x] = false;
 	}
 
 	@Override
-	public Boolean getHit(int x, int y) {
+	public Boolean getHit(Coordinates coords) {
+		int x = coords.getX();
+		int y = coords.getY();
+
 		return frappes[y][x];
 	}
 
 	@Override
-	public Hit sendHit(int x, int y) {
+	public Hit sendHit(Coordinates coords) {
+
+		int x = coords.getX();
+		int y = coords.getY();
+
 		Hit res = null;
 		if (this.navires[y][x] != null)
 		{

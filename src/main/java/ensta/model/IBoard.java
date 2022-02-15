@@ -1,6 +1,7 @@
 package ensta.model;
 
 import ensta.ship.AbstractShip;
+import ensta.util.Coordinates;
 
 public interface IBoard {
 
@@ -12,7 +13,7 @@ public interface IBoard {
 
     /**
     * Put the given ship at the given position
-    * @param ship The ship to place on the board
+    * @param aShip The ship to place on the board
     * @param x
      * @param y
      * @return true if the ship is put on the board
@@ -30,25 +31,22 @@ public interface IBoard {
     /**
      * Set the state of the hit at a given position
      * @param hit true if the hit must be set to successful
-     * @param x
-     * @param y
+     * @param coords
      */
-    public void setHit(boolean hit, int x, int y);
+    public void setHit(boolean hit, Coordinates coords);
 
     /**
      * Get the state of a hit at the given position
-     * @param x
-     * @param y
+     * @param coords
      * @return true if the hit is successful
      */
-    public Boolean getHit(int x, int y);
+    public Boolean getHit(Coordinates coords);
 
     /**
      * Sends a hit at the given position
-     * @param x
-     * @param y
+     * @param coords
      * @return status for the hit (eg : strike or miss)
      */
 
-    public Hit sendHit(int x, int y);
+    public Hit sendHit(Coordinates coords);
 }

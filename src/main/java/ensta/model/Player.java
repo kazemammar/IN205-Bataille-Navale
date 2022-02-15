@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import ensta.ship.AbstractShip;
+import ensta.util.Coordinates;
 import ensta.util.Orientation;
 import ensta.view.InputHelper;
 
@@ -100,12 +101,12 @@ public class Player {
 				int x = hitInput.x;
 				int y = hitInput.y;
 				boolean in = 0 <= x && x < opponentBoard.getSize() && 0 <= y && y < opponentBoard.getSize();
-				done = board.getHit(x,y) == null && in ;
+				done = board.getHit(new Coordinates(x,y)) == null && in ;
 				if (done)
 				{
 					// TODO call sendHit on this.opponentBoard
-					hit = opponentBoard.sendHit(x,y);
-					board.setHit(hit != Hit.MISS, x, y);
+					hit = opponentBoard.sendHit(new Coordinates(x,y));
+					board.setHit(hit != Hit.MISS, new Coordinates(x,y));
 					if (hit != Hit.MISS && hit != Hit.STRIKE)
 					{
 						System.out.println(hit.toString() + " coulé");
